@@ -54,7 +54,7 @@ export default function AboutSection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="font-display text-5xl sm:text-6xl font-300 text-white leading-tight mb-6"
+              className="font-display text-4xl sm:text-5xl lg:text-6xl font-300 text-white leading-tight mb-6"
             >
               El estudio que une{' '}
               <span className="text-gold-shimmer font-600">derecho</span>{' '}

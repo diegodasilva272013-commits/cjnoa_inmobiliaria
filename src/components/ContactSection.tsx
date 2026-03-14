@@ -63,7 +63,7 @@ export default function ContactSection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="font-display text-5xl sm:text-6xl font-300 text-white leading-tight mb-6"
+              className="font-display text-4xl sm:text-5xl lg:text-6xl font-300 text-white leading-tight mb-6"
             >
               Hablemos de{' '}
               <span className="text-gold-shimmer font-600">tu propiedad</span>
@@ -116,7 +116,7 @@ export default function ContactSection() {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            <div className="glass-card rounded-sm p-8">
+            <div className="glass-card rounded-sm p-5 sm:p-8">
               {sent ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -139,7 +139,7 @@ export default function ContactSection() {
                     Solicitar información
                   </h3>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="font-body text-[10px] text-silver/40 tracking-widest uppercase block mb-2">
                         Nombre *

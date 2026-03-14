@@ -47,7 +47,7 @@ export default function PropertyCard({ propiedad, onOpen, index, vista = 'grilla
       onClick={() => onOpen(propiedad)}
     >
       {/* Image / Video container */}
-      <div className={`relative overflow-hidden ${isLista ? 'w-64 flex-shrink-0 aspect-auto' : 'aspect-[4/3]'}`}>
+      <div className={`relative overflow-hidden ${isLista ? 'w-32 sm:w-48 md:w-64 flex-shrink-0' : 'aspect-[4/3]'}`}>
         {/* Main photo */}
         <Image
           src={propiedad.fotos[0] || '/placeholder.jpg'}
@@ -167,7 +167,7 @@ export default function PropertyCard({ propiedad, onOpen, index, vista = 'grilla
           <Link
             href={`/propiedades/${propiedad.id}`}
             onClick={e => e.stopPropagation()}
-            className="btn-gold-outline px-4 py-2 rounded-sm text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-1.5"
+            className="btn-gold-outline px-4 py-2 rounded-sm text-xs opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-1.5"
           >
             Ver más <ArrowRight size={10} />
           </Link>

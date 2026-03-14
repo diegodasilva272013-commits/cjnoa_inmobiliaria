@@ -32,7 +32,7 @@ function Counter({ value, suffix, active }: { value: number; suffix: string; act
   }, [active, value])
 
   return (
-    <span className="stat-number text-5xl sm:text-6xl lg:text-7xl">
+    <span className="stat-number text-4xl sm:text-5xl lg:text-6xl">
       {count.toLocaleString('es-AR')}{suffix}
     </span>
   )

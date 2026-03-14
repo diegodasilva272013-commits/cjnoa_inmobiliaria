@@ -137,7 +137,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="font-display font-300 text-6xl sm:text-7xl lg:text-8xl xl:text-9xl leading-none tracking-tight text-white mb-4"
+          className="font-display font-300 text-5xl sm:text-6xl lg:text-8xl xl:text-9xl leading-none tracking-tight text-white mb-4"
         >
           Propiedades
         </motion.h1>
@@ -147,7 +147,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="font-display font-700 text-6xl sm:text-7xl lg:text-8xl xl:text-9xl leading-none tracking-tight mb-8 h-[1.1em] flex items-center"
+          className="font-display font-700 text-5xl sm:text-6xl lg:text-8xl xl:text-9xl leading-none tracking-tight mb-8 h-[1.1em] flex items-center"
         >
           <span className="text-gold-shimmer">{displayed}</span>
           <span className="text-gold animate-pulse ml-1">|</span>
@@ -176,7 +176,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.1 }}
-          className="w-full max-w-2xl glass-card rounded-sm p-1 flex gap-1 mb-6"
+          className="w-full max-w-2xl glass-card rounded-sm p-2 flex flex-col sm:flex-row gap-2 mb-6"
         >
           <div className="flex items-center gap-2 flex-1 px-4">
             <MapPin size={14} className="text-gold flex-shrink-0" />
@@ -186,22 +186,24 @@ export default function Hero() {
               className="luxury-input w-full bg-transparent border-none py-3 text-sm"
             />
           </div>
-          <div className="w-px bg-gold/10 my-2" />
-          <select className="luxury-input bg-transparent border-none px-4 py-3 text-sm text-silver/60 appearance-none">
-            <option value="">Tipo</option>
-            <option value="casa">Casa</option>
-            <option value="departamento">Departamento</option>
-            <option value="terreno">Terreno</option>
-            <option value="country">Country</option>
-            <option value="oficina">Oficina</option>
-          </select>
-          <button
-            onClick={() => scrollTo('#propiedades')}
-            className="btn-gold px-6 py-3 rounded-sm flex items-center gap-2 flex-shrink-0"
-          >
-            <Search size={14} />
-            <span>Buscar</span>
-          </button>
+          <div className="hidden sm:block w-px bg-gold/10 my-2" />
+          <div className="flex gap-2">
+            <select className="luxury-input bg-transparent border border-gold/10 rounded-sm px-4 py-3 text-sm text-silver/60 appearance-none flex-1 sm:flex-none">
+              <option value="">Tipo</option>
+              <option value="casa">Casa</option>
+              <option value="departamento">Departamento</option>
+              <option value="terreno">Terreno</option>
+              <option value="country">Country</option>
+              <option value="oficina">Oficina</option>
+            </select>
+            <button
+              onClick={() => scrollTo('#propiedades')}
+              className="btn-gold px-6 py-3 rounded-sm flex items-center justify-center gap-2 flex-shrink-0"
+            >
+              <Search size={14} />
+              <span>Buscar</span>
+            </button>
+          </div>
         </motion.div>
 
         {/* Quick stats */}
@@ -209,12 +211,12 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.3 }}
-          className="flex items-center gap-6 text-silver/50"
+          className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-silver/50"
         >
           {[
             { n: '120+', label: 'Propiedades' },
-            { n: '15', label: 'Años de experiencia' },
-            { n: '500+', label: 'Clientes felices' },
+            { n: '15', label: 'Años' },
+            { n: '500+', label: 'Clientes' },
           ].map(({ n, label }) => (
             <div key={label} className="flex items-center gap-2">
               <span className="font-display text-gold text-lg font-600">{n}</span>

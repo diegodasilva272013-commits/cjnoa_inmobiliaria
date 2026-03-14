@@ -115,15 +115,15 @@ export default function PropertiesSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex items-center justify-between gap-4 flex-wrap mb-4"
+            className="flex flex-col gap-3 mb-4"
           >
-            {/* Type filters */}
-            <div className="flex items-center gap-2 flex-wrap">
+            {/* Type filters - scrollable on mobile */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
               {FILTROS.map((f) => (
                 <button
                   key={f.value}
                   onClick={() => setFiltroTipo(f.value)}
-                  className={`relative px-5 py-2.5 rounded-sm font-body text-xs font-600 tracking-[0.2em] uppercase transition-all duration-300 ${
+                  className={`relative px-4 py-2.5 rounded-sm font-body text-xs font-600 tracking-[0.15em] uppercase transition-all duration-300 whitespace-nowrap flex-shrink-0 ${
                     filtroTipo === f.value
                       ? 'btn-gold'
                       : 'btn-gold-outline opacity-60 hover:opacity-100'
@@ -135,7 +135,7 @@ export default function PropertiesSection() {
             </div>
 
             {/* Right controls */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 flex-wrap">
               {/* Advanced filters toggle */}
               <button
                 onClick={() => setShowAdvanced(!showAdvanced)}
@@ -151,11 +151,11 @@ export default function PropertiesSection() {
               </button>
 
               {/* Order */}
-              <div className="relative">
+              <div className="relative flex-1 min-w-[140px]">
                 <select
                   value={orden}
                   onChange={e => setOrden(e.target.value as OrdenTipo)}
-                  className="luxury-input pl-3 pr-8 py-2.5 rounded-sm font-body text-xs tracking-wider appearance-none cursor-pointer min-w-[160px]"
+                  className="luxury-input pl-3 pr-8 py-2.5 rounded-sm font-body text-xs tracking-wider appearance-none cursor-pointer w-full"
                 >
                   {ORDENES.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                 </select>

@@ -359,3 +359,21 @@ body {
   80% { transform: translate(3%,-2%); }
   90% { transform: translate(-1%,1%); }
 }
+
+/* ═══════════════════════════════════
+   MOBILE UTILITIES
+═══════════════════════════════════ */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Prevent horizontal overflow on mobile */
+@media (max-width: 640px) {
+  section {
+    overflow-x: hidden;
+  }
+}

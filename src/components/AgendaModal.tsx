@@ -91,7 +91,7 @@ export default function AgendaModal({ propiedadId, propiedadTitulo, onClose }: P
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[200] bg-dark/80 backdrop-blur-sm flex items-center justify-center p-4"
+      className="fixed inset-0 z-[200] bg-dark/80 backdrop-blur-sm flex items-end sm:items-center justify-center sm:p-4"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <motion.div
@@ -99,7 +99,7 @@ export default function AgendaModal({ propiedadId, propiedadTitulo, onClose }: P
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.95, opacity: 0, y: 20 }}
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        className="relative w-full max-w-lg glass-card rounded-sm overflow-hidden"
+        className="relative w-full sm:max-w-lg glass-card rounded-t-xl sm:rounded-sm overflow-hidden max-h-[90vh] overflow-y-auto"
         style={{ border: '1px solid rgba(201,168,76,0.15)' }}
       >
         {/* Header */}
