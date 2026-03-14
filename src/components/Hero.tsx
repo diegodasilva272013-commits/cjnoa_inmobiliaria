@@ -119,13 +119,13 @@ export default function Hero() {
       <div className="absolute bottom-24 right-8 w-16 h-16 border-r border-b border-gold/20" />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-5xl mx-auto pb-20">
+      <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-5xl mx-auto pb-4 sm:pb-20">
         {/* Tag */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex items-center gap-3 mb-8"
+          className="flex items-center gap-3 mb-4 sm:mb-8"
         >
           <div className="h-px w-12 bg-gold/40" />
           <span className="section-tag">Centro Jurídico NOA · Jujuy, Argentina</span>
@@ -147,7 +147,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="font-display font-700 text-5xl sm:text-6xl lg:text-8xl xl:text-9xl leading-none tracking-tight mb-8 h-[1.1em] flex items-center"
+          className="font-display font-700 text-5xl sm:text-6xl lg:text-8xl xl:text-9xl leading-none tracking-tight mb-4 sm:mb-8 h-[1.1em] flex items-center"
         >
           <span className="text-gold-shimmer">{displayed}</span>
           <span className="text-gold animate-pulse ml-1">|</span>
@@ -158,7 +158,7 @@ export default function Hero() {
           initial={{ scaleX: 0, opacity: 0 }}
           animate={{ scaleX: 1, opacity: 1 }}
           transition={{ duration: 1, delay: 0.9 }}
-          className="gold-divider w-48 mb-8"
+          className="gold-divider w-48 mb-4 sm:mb-8"
         />
 
         {/* Subtitle */}
@@ -166,7 +166,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1 }}
-          className="font-body font-300 text-silver/70 text-sm sm:text-base tracking-[0.15em] uppercase max-w-xl mb-12"
+          className="font-body font-300 text-silver/70 text-sm sm:text-base tracking-[0.15em] uppercase max-w-xl mb-6 sm:mb-12"
         >
           Con respaldo jurídico integral · Noroeste Argentino
         </motion.p>
@@ -232,7 +232,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gold/50 hover:text-gold transition-colors duration-300"
+        className="relative sm:absolute sm:bottom-10 sm:left-1/2 sm:-translate-x-1/2 mt-6 mb-8 sm:mt-0 sm:mb-0 flex flex-col items-center gap-2 text-gold/50 hover:text-gold transition-colors duration-300"
       >
         <span className="font-body text-xs tracking-[0.3em] uppercase">Explorar</span>
         <motion.div
