@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+// In-memory store (reemplazar con Supabase cuando esté configurado)
+const agendas: any[] = []
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,16 +12,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Faltan campos obligatorios' }, { status: 400 })
     }
 
-    const { data, error } = await supabase.from('agenda').insert([{
-      nombre, telefono, email, tipo, propiedad_id, fecha, horario, notas, estado: 'confirmada'
-    }]).select().single()
-
-    if (error) {
-      console.error('Supabase error:', error)
-      return NextResponse.json({ error: 'Error al guardar la cita' }, { status: 500 })
+    const agenda = {
+      id: Date.now().toString(),
+      nombre, telefono, email, tipo, propiedad_id, fecha, horario, notas,
+      estado: 'confirmada',
+      created_at: new Date().toISOString(),
     }
+    agendas.push(agenda)
 
-    return NextResponse.json({ success: true, agenda: data })
+    return NextResponse.json({ success: true, agenda })
   } catch (e) {
     console.error(e)
     return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 })
@@ -32,14 +28,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET() {
-  const { data, error } = await supabase
-    .from('agenda')
-    .select('*, propiedades(titulo)')
-    .order('fecha', { ascending: true })
-    .order('horario', { ascending: true })
-
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json({ agendas: data })
+  return NextResponse.json({ agendas })
 }
 
 export async function PATCH(req: NextRequest) {
@@ -48,8 +37,8 @@ export async function PATCH(req: NextRequest) {
 
   if (!id || !estado) return NextResponse.json({ error: 'Faltan parámetros' }, { status: 400 })
 
-  const { error } = await supabase.from('agenda').update({ estado }).eq('id', id)
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  const agenda = agendas.find(a => a.id === id)
+  if (agenda) agenda.estado = estado
 
   return NextResponse.json({ success: true })
 }

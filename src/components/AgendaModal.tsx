@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Calendar, Video, Phone, MapPin, Check, ChevronLeft, ChevronRight } from 'lucide-react'
-import { supabase } from '@/lib/supabase'
 import { getWhatsAppUrl } from '@/lib/utils'
 import type { Agenda } from '@/types'
 
@@ -71,9 +70,6 @@ export default function AgendaModal({ propiedadId, propiedadTitulo, onClose }: P
         horario,
         estado: 'confirmada',
       }
-      const { error: sbError } = await supabase.from('agenda').insert([agenda])
-      if (sbError) console.error('Supabase error:', sbError)
-
       // WhatsApp confirmation
       const fechaStr = formatFecha(dias[fechaIdx])
       const tipoLabel = TIPOS.find(t => t.value === tipo)?.label || tipo

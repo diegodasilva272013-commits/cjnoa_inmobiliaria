@@ -1,88 +1,48 @@
-import { createClient } from '@supabase/supabase-js'
 import type { Propiedad, Lead, Agenda, Testimonio } from '@/types'
+import { MOCK_PROPIEDADES } from '@/lib/utils'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Stub export for components that import `supabase` directly
+export const supabase = null as any
 
 export async function getPropiedades(): Promise<Propiedad[]> {
-  const { data, error } = await supabase
-    .from('propiedades')
-    .select('*')
-    .eq('estado', 'disponible')
-    .order('destacada', { ascending: false })
-    .order('created_at', { ascending: false })
-  if (error) throw error
-  return data || []
+  return MOCK_PROPIEDADES.filter(p => p.estado === 'disponible')
+    .sort((a, b) => (b.destacada ? 1 : 0) - (a.destacada ? 1 : 0))
 }
 
 export async function getPropiedadesDestacadas(): Promise<Propiedad[]> {
-  const { data, error } = await supabase
-    .from('propiedades')
-    .select('*')
-    .eq('destacada', true)
-    .eq('estado', 'disponible')
-    .limit(6)
-  if (error) throw error
-  return data || []
+  return MOCK_PROPIEDADES.filter(p => p.destacada && p.estado === 'disponible').slice(0, 6)
 }
 
 export async function getPropiedad(id: string): Promise<Propiedad> {
-  const { data, error } = await supabase
-    .from('propiedades')
-    .select('*')
-    .eq('id', id)
-    .single()
-  if (error) throw error
-  return data
+  const p = MOCK_PROPIEDADES.find(p => p.id === id)
+  if (!p) throw new Error('Propiedad no encontrada')
+  return p
 }
 
-export async function saveLead(lead: Omit<Lead, 'id' | 'created_at'>): Promise<void> {
-  const { error } = await supabase.from('leads').insert([lead])
-  if (error) throw error
+export async function saveLead(_lead: Omit<Lead, 'id' | 'created_at'>): Promise<void> {
+  // No-op until Supabase is connected
 }
 
 export async function getLeads(): Promise<Lead[]> {
-  const { data, error } = await supabase
-    .from('leads')
-    .select('*')
-    .order('created_at', { ascending: false })
-  if (error) throw error
-  return data || []
+  return []
 }
 
-export async function updateLeadEstado(id: string, estado: Lead['estado']): Promise<void> {
-  const { error } = await supabase.from('leads').update({ estado }).eq('id', id)
-  if (error) throw error
+export async function updateLeadEstado(_id: string, _estado: Lead['estado']): Promise<void> {
+  // No-op until Supabase is connected
 }
 
-export async function saveAgenda(agenda: Omit<Agenda, 'id' | 'created_at'>): Promise<void> {
-  const { error } = await supabase.from('agenda').insert([agenda])
-  if (error) throw error
+export async function saveAgenda(_agenda: Omit<Agenda, 'id' | 'created_at'>): Promise<void> {
+  // No-op until Supabase is connected
 }
 
 export async function getAgendas(): Promise<Agenda[]> {
-  const { data, error } = await supabase
-    .from('agenda')
-    .select('*')
-    .order('fecha', { ascending: true })
-    .order('horario', { ascending: true })
-  if (error) throw error
-  return data || []
+  return []
 }
 
-export async function updateAgendaEstado(id: string, estado: Agenda['estado']): Promise<void> {
-  const { error } = await supabase.from('agenda').update({ estado }).eq('id', id)
-  if (error) throw error
+export async function updateAgendaEstado(_id: string, _estado: Agenda['estado']): Promise<void> {
+  // No-op until Supabase is connected
 }
 
 export async function getTestimonios(): Promise<Testimonio[]> {
-  const { data, error } = await supabase
-    .from('testimonios')
-    .select('*')
-    .eq('activo', true)
-    .order('created_at', { ascending: false })
-  if (error) throw error
-  return data || []
+  return []
 }

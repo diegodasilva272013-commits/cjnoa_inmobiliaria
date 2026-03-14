@@ -5,7 +5,6 @@ import { motion } from 'framer-motion'
 import {
   ArrowLeft, Download, MessageCircle, Filter, ChevronDown, X
 } from 'lucide-react'
-import { supabase } from '@/lib/supabase'
 import NextLink from 'next/link'
 import type { Lead } from '@/types'
 
@@ -49,27 +48,15 @@ export default function LeadsPage() {
 
   const loadLeads = async () => {
     setLoading(true)
-    try {
-      const { data, error } = await supabase
-        .from('leads')
-        .select('*')
-        .order('created_at', { ascending: false })
-      if (!error && data) setLeads(data)
-      else setLeads(MOCK_LEADS)
-    } catch {
-      setLeads(MOCK_LEADS)
-    } finally {
-      setLoading(false)
-    }
+    setLeads(MOCK_LEADS)
+    setLoading(false)
   }
 
   const changeEstado = async (id: string, estado: EstadoLead) => {
-    await supabase.from('leads').update({ estado }).eq('id', id)
     setLeads(prev => prev.map(l => l.id === id ? { ...l, estado } : l))
   }
 
   const guardarNota = async (id: string) => {
-    await supabase.from('leads').update({ notas: notaText }).eq('id', id)
     setLeads(prev => prev.map(l => l.id === id ? { ...l, notas: notaText } : l))
     setEditNota(null)
   }

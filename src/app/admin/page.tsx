@@ -7,7 +7,6 @@ import {
   X, Check, ChevronDown, Lock, LayoutDashboard,
   Users, Calendar, LogOut, Image as ImageIcon, Link
 } from 'lucide-react'
-import { supabase } from '@/lib/supabase'
 import { MOCK_PROPIEDADES, formatPrice } from '@/lib/utils'
 import type { Propiedad } from '@/types'
 import Image from 'next/image'
@@ -56,15 +55,12 @@ export default function AdminPage() {
   const loadData = async () => {
     setLoading(true)
     try {
-      const [propRes, agendaRes] = await Promise.all([
-        supabase.from('propiedades').select('*').order('created_at', { ascending: false }),
-        supabase.from('agenda').select('*, propiedades(titulo)').order('fecha', { ascending: true })
-      ])
-      if (!propRes.error && propRes.data) setPropiedades(propRes.data)
-      else setPropiedades(MOCK_PROPIEDADES)
-      if (!agendaRes.error && agendaRes.data) setAgendas(agendaRes.data)
-    } catch {
       setPropiedades(MOCK_PROPIEDADES)
+      const res = await fetch('/api/agenda')
+      const json = await res.json()
+      setAgendas(json.agendas || [])
+    } catch {
+      // no-op
     } finally {
       setLoading(false)
     }
@@ -94,44 +90,29 @@ export default function AdminPage() {
     const data = { ...form, fotos, amenidades }
 
     if (editando) {
-      const { error } = await supabase.from('propiedades').update(data).eq('id', editando.id)
-      if (!error) setPropiedades(prev => prev.map(p => p.id === editando.id ? { ...p, ...data } : p))
+      setPropiedades(prev => prev.map(p => p.id === editando.id ? { ...p, ...data } : p))
     } else {
-      const { data: created, error } = await supabase.from('propiedades').insert([data]).select().single()
-      if (!error && created) setPropiedades(prev => [created, ...prev])
-      else if (error) setPropiedades(prev => [{ ...data, id: Date.now().toString(), created_at: new Date().toISOString() }, ...prev])
+      setPropiedades(prev => [{ ...data, id: Date.now().toString(), created_at: new Date().toISOString() }, ...prev])
     }
     setShowForm(false)
   }
 
   const deletePropiedad = async (id: string) => {
-    const { error } = await supabase.from('propiedades').delete().eq('id', id)
-    if (!error) setPropiedades(prev => prev.filter(p => p.id !== id))
-    else setPropiedades(prev => prev.filter(p => p.id !== id))
+    setPropiedades(prev => prev.filter(p => p.id !== id))
     setDeleteConfirm(null)
   }
 
   const toggleDestacada = async (p: Propiedad) => {
-    await supabase.from('propiedades').update({ destacada: !p.destacada }).eq('id', p.id)
     setPropiedades(prev => prev.map(x => x.id === p.id ? { ...x, destacada: !x.destacada } : x))
   }
 
   const changeEstado = async (p: Propiedad, estado: Propiedad['estado']) => {
-    await supabase.from('propiedades').update({ estado }).eq('id', p.id)
     setPropiedades(prev => prev.map(x => x.id === p.id ? { ...x, estado } : x))
   }
 
   const uploadFotos = async (files: FileList) => {
     setUploading(true)
-    const urls: string[] = []
-    for (const file of Array.from(files)) {
-      const path = `${Date.now()}-${file.name}`
-      const { error, data } = await supabase.storage.from('fotos-propiedades').upload(path, file, { upsert: true })
-      if (!error && data) {
-        const { data: urlData } = supabase.storage.from('fotos-propiedades').getPublicUrl(data.path)
-        urls.push(urlData.publicUrl)
-      }
-    }
+    const urls = Array.from(files).map(f => URL.createObjectURL(f))
     setFotosUrls(prev => [...prev.split('\n').filter(Boolean), ...urls].join('\n'))
     setUploading(false)
   }

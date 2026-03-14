@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
+import { MOCK_PROPIEDADES } from '@/lib/utils'
 
 // ──────────────────────────────────────────────────────────────────────────────
 // WhatsApp AI Agent — Centro Jurídico NOA
@@ -75,42 +75,30 @@ async function validateTwilioSignature(req: NextRequest, rawBody: string): Promi
   return expected === twilioSignature
 }
 
-// ── Search properties from Supabase ─────────────────────────────────────────
+// ── Search properties from mock data ────────────────────────────────────────
 async function buscarPropiedades(query: {
   tipo?: string
   precioMax?: number
   habitaciones?: number
   ciudad?: string
 }): Promise<string> {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
+  let results = MOCK_PROPIEDADES.filter(p => p.estado === 'disponible')
+  if (query.tipo) results = results.filter(p => p.tipo === query.tipo)
+  if (query.ciudad) results = results.filter(p => p.ciudad.toLowerCase().includes(query.ciudad!.toLowerCase()))
+  if (query.habitaciones) results = results.filter(p => (p.habitaciones || 0) >= query.habitaciones!)
+  if (query.precioMax) results = results.filter(p => p.precio <= query.precioMax!)
+  results = results.sort((a, b) => (b.destacada ? 1 : 0) - (a.destacada ? 1 : 0)).slice(0, 3)
 
-  let q = supabase.from('propiedades').select('id,titulo,precio,moneda,ciudad,habitaciones,m2_totales,tipo,descripcion_corta').eq('estado', 'disponible')
-  if (query.tipo) q = q.eq('tipo', query.tipo)
-  if (query.ciudad) q = q.ilike('ciudad', `%${query.ciudad}%`)
-  if (query.habitaciones) q = q.gte('habitaciones', query.habitaciones)
-  if (query.precioMax) q = q.lte('precio', query.precioMax)
-  q = q.order('destacada', { ascending: false }).limit(3)
+  if (!results.length) return 'No encontré propiedades que coincidan con esos criterios.'
 
-  const { data, error } = await q
-  if (error || !data?.length) return 'No encontré propiedades que coincidan con esos criterios.'
-
-  return data.map((p: { id: string; titulo: string; precio: number; moneda: string; ciudad: string; habitaciones?: number; m2_totales?: number; tipo?: string; descripcion_corta?: string }) =>
+  return results.map(p =>
     `• *${p.titulo}* — ${p.moneda} ${p.precio.toLocaleString('es-AR')} | ${p.ciudad} | ${p.habitaciones ? p.habitaciones + ' amb.' : ''} ${p.m2_totales ? p.m2_totales + 'm²' : ''}\n  ${p.descripcion_corta || ''}\n  Ver: https://cjnoa.com/propiedades/${p.id}`
   ).join('\n\n')
 }
 
-// ── Save lead from WhatsApp ──────────────────────────────────────────────────
-async function guardarLeadWA(nombre: string, telefono: string, notas?: string) {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
-  await supabase.from('leads').upsert([{
-    nombre, telefono, origen: 'whatsapp', estado: 'nuevo', notas
-  }], { onConflict: 'telefono' })
+// ── Save lead (no-op until Supabase is connected) ────────────────────────────
+async function guardarLeadWA(_nombre: string, _telefono: string, _notas?: string) {
+  // No-op until Supabase is connected
 }
 
 // ── Send WhatsApp message via Twilio ─────────────────────────────────────────
