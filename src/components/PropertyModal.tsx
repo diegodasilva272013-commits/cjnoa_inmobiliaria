@@ -67,7 +67,7 @@ export default function PropertyModal({ propiedad, onClose }: Props) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] modal-backdrop flex items-center justify-center p-4"
+      className="fixed inset-0 z-[100] modal-backdrop flex items-end sm:items-center justify-center sm:p-4"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <motion.div
@@ -75,7 +75,7 @@ export default function PropertyModal({ propiedad, onClose }: Props) {
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.95, opacity: 0, y: 20 }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="relative w-full max-w-6xl max-h-[92vh] bg-dark-3 rounded-sm overflow-hidden flex flex-col lg:flex-row"
+        className="relative w-full sm:max-w-6xl max-h-[92vh] bg-dark-3 rounded-t-xl sm:rounded-sm overflow-y-auto lg:overflow-hidden flex flex-col lg:flex-row"
         style={{ border: '1px solid rgba(201,168,76,0.15)' }}
       >
         {/* Close button */}
@@ -234,7 +234,7 @@ export default function PropertyModal({ propiedad, onClose }: Props) {
         </div>
 
         {/* RIGHT — Info */}
-        <div className="lg:w-[42%] overflow-y-auto flex flex-col">
+        <div className="lg:w-[42%] lg:overflow-y-auto flex flex-col">
           <div className="p-6 flex-1">
             {/* Status + Type */}
             <div className="flex items-center gap-2 mb-4">

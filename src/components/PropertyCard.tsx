@@ -41,13 +41,13 @@ export default function PropertyCard({ propiedad, onOpen, index, vista = 'grilla
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, delay: Math.min(index * 0.1, 0.5), ease: [0.22, 1, 0.36, 1] }}
-      className={`property-card relative bg-dark-3 rounded-sm overflow-hidden cursor-pointer group ${isLista ? 'flex' : ''}`}
+      className={`property-card relative bg-dark-3 rounded-sm overflow-hidden cursor-pointer group ${isLista ? 'sm:flex' : ''}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onClick={() => onOpen(propiedad)}
     >
       {/* Image / Video container */}
-      <div className={`relative overflow-hidden ${isLista ? 'w-32 sm:w-48 md:w-64 flex-shrink-0' : 'aspect-[4/3]'}`}>
+      <div className={`relative overflow-hidden ${isLista ? 'aspect-[4/3] sm:aspect-auto sm:w-48 md:w-64 sm:flex-shrink-0' : 'aspect-[4/3]'}`}>
         {/* Main photo */}
         <Image
           src={propiedad.fotos[0] || '/placeholder.jpg'}

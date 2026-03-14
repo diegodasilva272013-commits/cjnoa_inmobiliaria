@@ -119,7 +119,7 @@ export default function Hero() {
       <div className="absolute bottom-24 right-8 w-16 h-16 border-r border-b border-gold/20" />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-5xl mx-auto">
+      <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-5xl mx-auto pb-20">
         {/* Tag */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
